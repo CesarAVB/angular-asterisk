@@ -9,11 +9,11 @@ Trata-se de uma implementação didática que visa demonstrar como integrar tecn
 
 Este projeto foi criado com o intuito de explorar e demonstrar a integração de diversas tecnologias, servindo como um estudo de caso prático para:
 
-Integração Full-Stack: Demonstra a comunicação e orquestração entre um frontend moderno (Angular), um backend robusto (Java com Spring Boot) e um sistema de telefonia (Asterisk).
-Asterisk Manager Interface (AMI): Explora o uso da AMI para receber eventos em tempo real do Asterisk e enviar comandos, permitindo monitoramento de chamadas, status de agentes, e outras interações programáticas.
-Comunicação em Tempo Real: Ilustra a implementação de WebSockets para manter o frontend Angular atualizado com os eventos do Asterisk de forma instantânea, proporcionando uma experiência de usuário dinâmica.
-Desenvolvimento Frontend com Angular: Apresenta a construção de uma interface de usuário reativa e dinâmica para exibir dados de telefonia e interagir com o sistema Asterisk de maneira intuitiva.
-Arquitetura de Monitoramento para Provedores: Valida um modelo de arquitetura para construir painéis de controle ou ferramentas de gerenciamento para sistemas de comunicação unificada, especificamente útil para provedores de internet com infraestrutura VoIP, utilizando tecnologias web amplamente difundidas.
+**Integração Full-Stack**: Demonstra a comunicação entre um frontend (Angular), o backend (Java com Spring Boot) e um sistema de telefonia (Asterisk).
+**Asterisk Manager Interface (AMI)**: Explora o uso da AMI para receber eventos em tempo real do Asterisk e enviar comandos, permitindo monitoramento de chamadas, status de agentes, e outras interações.
+**Comunicação em Tempo Real**: Ilustra a implementação de WebSockets para manter o frontend Angular atualizado com os eventos do Asterisk de forma instantânea, proporcionando uma experiência de usuário dinâmica.
+**Desenvolvimento Frontend com Angular**: Apresenta a construção de uma interface de usuário reativa e dinâmica para exibir dados de telefonia e interagir com o sistema Asterisk de maneira intuitiva.
+**Monitoramento para Provedores**: Estudo para construir painéis de controle ou ferramentas de gerenciamento para sistemas de comunicação, útil para provedores de internet com infraestrutura VoIP.
 📸 Visualização do Projeto
 A interface do usuário, desenvolvida em Angular, oferece painéis intuitivos para monitorar o status do sistema Asterisk e interagir com suas funcionalidades.
 
