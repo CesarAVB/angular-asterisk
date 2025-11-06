@@ -15,16 +15,16 @@ Este projeto foi criado com o intuito de explorar e demonstrar a integração de
 - **Desenvolvimento Frontend com Angular**: Apresenta a construção de uma interface de usuário reativa e dinâmica para exibir dados de telefonia e interagir com o sistema Asterisk de maneira intuitiva.  
 - **Monitoramento para Provedores**: Estudo para construir painéis de controle ou ferramentas de gerenciamento para sistemas de comunicação, útil para provedores de internet com infraestrutura VoIP.  
 
-📸 Visualização do Projeto
+📸 Visualização do Projeto  
 A interface do usuário, desenvolvida em Angular, oferece painéis intuitivos para monitorar o status do sistema Asterisk e interagir com suas funcionalidades.
 
-Monitoramento de Ramais:
+- Monitoramento de Ramais:
 
 Este painel exibe o status em tempo real dos ramais configurados no Asterisk, categorizando-os como disponíveis, offline ou ocupados. Permite uma visão rápida da saúde da sua infraestrutura de telefonia.
 
 ![Screenshot do painel de consulta de ramais](public/ramais.png)
 
-Consulta e Gerenciamento de Protocolos:
+- Consulta e Gerenciamento de Protocolos:
 
 A seção de protocolos permite visualizar e gerenciar registros de interações ou chamadas geradas pelo sistema, oferecendo funcionalidades de busca e detalhes para cada evento.
 
