@@ -1,4 +1,4 @@
-📞 Angular & Asterisk AMI – Interface Web para Monitoramento e Interação
+📞 Angular & Asterisk AMI – Interface Web para Monitoramento e Interação  
 Este projeto apresenta uma aplicação web construída com Angular, projetada para oferecer monitoramento e interação em tempo real com um servidor de telefonia Asterisk. A comunicação com o Asterisk é realizada através do Asterisk Manager Interface (AMI), intermediada por um backend em Java com Spring Boot, que gerencia a comunicação em tempo real com o frontend Angular através de WebSockets.
 
 Trata-se de uma implementação didática que visa demonstrar como integrar tecnologias web modernas com um sistema de telefonia robusto, criando uma interface de gerenciamento ou monitoramento em tempo real. Este projeto foi concebido para atender às necessidades de um provedor de internet que possui servidores PBX VoIP, oferecendo uma ferramenta para monitorar e interagir com sua infraestrutura de telefonia.
