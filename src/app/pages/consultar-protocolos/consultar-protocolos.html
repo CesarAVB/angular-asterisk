@@ -1,0 +1,440 @@
+<div class="protocolos-page">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>Consultar Protocolos</h1>
+      <p class="subtitle">Visualize e gerencie todos os protocolos gerados no sistema</p>
+    </div>
+    <div class="header-right">
+      <button class="btn-refresh" (click)="carregarProtocolos()" [disabled]="loading">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <polyline points="23 4 23 10 17 10"></polyline>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+        </svg>
+        Atualizar
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Carregando protocolos...</p>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error && !loading) {
+    <div class="error-container">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="64"
+        height="64"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <h3>{{ error }}</h3>
+      <button class="btn-retry" (click)="carregarProtocolos()">Tentar Novamente</button>
+    </div>
+  }
+
+  <!-- Content -->
+  @if (!loading && !error) {
+    <!-- Stats Card -->
+    <div class="stats-card">
+      <div class="stat-item">
+        <div class="stat-icon">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Total de Protocolos</span>
+          <span class="stat-value">{{ protocolos.length }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search and Filters -->
+    <div class="filters-section">
+      <div class="search-box">
+        <svg
+          class="search-icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          type="text"
+          placeholder="Buscar por protocolo, nome, telefone ou CPF..."
+          class="search-input"
+        />
+      </div>
+      <div class="filter-buttons"></div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrapper">
+      <div class="table-container">
+        <table class="protocolos-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Protocolo</th>
+              <th>Nome</th>
+              <th>Telefone</th>
+              <th>CPF/CNPJ</th>
+              <th>Data de Geração</th>
+              <th class="text-center">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (protocolo of protocolos; track protocolo.id) {
+              <tr class="table-row">
+                <td class="id-cell">{{ protocolo.id }}</td>
+                <td class="protocol-cell">
+                  <span class="protocol-number">#{{ protocolo.protocolo }}</span>
+                </td>
+                <td class="name-cell">
+                  @if (protocolo.nome === 'nao-encontrado') {
+                    <span class="not-found">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                      </svg>
+                      Não encontrado
+                    </span>
+                  } @else {
+                    <div class="user-info">
+                      <span>{{ protocolo.nome }}</span>
+                    </div>
+                  }
+                </td>
+                <td class="phone-cell">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+                    ></path>
+                  </svg>
+                  {{ formatarTelefone(protocolo.telefone) }}
+                </td>
+                <td class="cpf-cell">{{ formatarCpfCnpj(protocolo.cpfCnpj) }}</td>
+                <td class="date-cell">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  {{ formatarData(protocolo.dataGeracao) }}
+                </td>
+                <!-- COLUNA DE AÇÕES COM PLAYER INTEGRADO -->
+                <td class="actions-cell">
+                  <div class="action-buttons">
+                    <!-- Botão de Visualizar -->
+                    <button
+                      class="btn-action btn-view"
+                      (click)="visualizarProtocolo(protocolo.id)"
+                      title="Visualizar"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                      </svg>
+                    </button>
+
+                    <!-- BOTÕES DE ÁUDIO -->
+                    @if (audioLoadingMap[protocolo.id]) {
+                      <!-- Loading do áudio -->
+                      <div class="btn-action btn-audio-loading">
+                        <div class="spinner-tiny"></div>
+                      </div>
+                    } @else if (audioUrlMap[protocolo.id]) {
+                      <!-- Player de áudio carregado -->
+                      <audio
+                        [id]="'audio-' + protocolo.id"
+                        [src]="audioUrlMap[protocolo.id]"
+                        (play)="onAudioPlay(protocolo.id)"
+                        (pause)="onAudioPause(protocolo.id)"
+                        (ended)="onAudioEnded(protocolo.id)"
+                        (timeupdate)="onTimeUpdate($event, protocolo.id)"
+                      ></audio>
+
+                      <!-- Botão Play/Pause -->
+                      <button
+                        class="btn-action btn-audio-play"
+                        [class.playing]="audioPlayingMap[protocolo.id]"
+                        (click)="toggleAudio(protocolo.id)"
+                        [title]="audioPlayingMap[protocolo.id] ? 'Pausar' : 'Reproduzir'"
+                      >
+                        @if (audioPlayingMap[protocolo.id]) {
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <rect x="6" y="4" width="4" height="16"></rect>
+                            <rect x="14" y="4" width="4" height="16"></rect>
+                          </svg>
+                        } @else {
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                          </svg>
+                        }
+                      </button>
+
+                      <!-- Botão de Download -->
+                      <a
+                        [href]="'/api/gravacoes/' + protocolo.protocolo"
+                        download
+                        class="btn-action btn-audio-download"
+                        title="Download da gravação"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                          <polyline points="7 10 12 15 17 10"></polyline>
+                          <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                      </a>
+                    } @else if (audioErrorMap[protocolo.id]) {
+                      <!-- Erro ao carregar áudio -->
+                      <button
+                        class="btn-action btn-audio-error"
+                        title="Gravação não encontrada"
+                        disabled
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <circle cx="12" cy="12" r="10"></circle>
+                          <line x1="15" y1="9" x2="9" y2="15"></line>
+                          <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg>
+                      </button>
+                    } @else {
+                      <!-- Botão para carregar áudio -->
+                      <button
+                        class="btn-action btn-audio-load"
+                        (click)="carregarAudio(protocolo)"
+                        title="Carregar gravação"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                      </button>
+                    }
+
+                    <!-- Botão de Excluir -->
+                    <button
+                      class="btn-action btn-delete"
+                      (click)="abrirModalExclusao(protocolo)"
+                      title="Excluir"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path
+                          d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                        ></path>
+                      </svg>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="7" class="empty-state">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="64"
+                    height="64"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1"
+                  >
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                  <h4>Nenhum protocolo encontrado</h4>
+                  <p>Não há protocolos cadastrados no momento.</p>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>
+
+<!-- Modal de Confirmação de Exclusão -->
+@if (showDeleteModal) {
+  <div class="modal-overlay" (click)="cancelarExclusao()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <div class="modal-icon-danger">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+            <line x1="9" y1="9" x2="15" y2="15"></line>
+          </svg>
+        </div>
+        <h2>Confirmar Exclusão</h2>
+        <button class="modal-close" (click)="cancelarExclusao()" title="Fechar">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p class="modal-warning">Tem certeza que deseja excluir este protocolo?</p>
+        @if (protocoloParaExcluir) {
+          <div class="protocolo-info">
+            <div class="info-row">
+              <span class="info-label">Protocolo:</span>
+              <span class="info-value">#{{ protocoloParaExcluir.protocolo }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Nome:</span>
+              <span class="info-value">{{ protocoloParaExcluir.nome }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Telefone:</span>
+              <span class="info-value">{{ formatarTelefone(protocoloParaExcluir.telefone) }}</span>
+            </div>
+          </div>
+        }
+        <p class="modal-alert">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path
+              d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
+            ></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          Esta ação não pode ser desfeita!
+        </p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" (click)="cancelarExclusao()">Cancelar</button>
+        <button class="btn-confirm-delete" (click)="confirmarExclusao()" [disabled]="deletando">
+          @if (deletando) {
+            <div class="spinner-small"></div>
+            Excluindo...
+          } @else {
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path
+                d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+              ></path>
+            </svg>
+            Sim, Excluir
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+}

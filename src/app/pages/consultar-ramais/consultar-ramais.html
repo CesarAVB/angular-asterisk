@@ -1,0 +1,196 @@
+<!-- pages/consultar-ramais/consultar-ramais.component.html -->
+<div class="ramais-page">
+  <!-- Header -->
+  <div class="page-header">
+    <div class="header-left">
+      <h1>Consultar Ramais</h1>
+      <p class="subtitle">Visualize o status de todos os ramais em tempo real</p>
+    </div>
+    <div class="header-right">
+      <button class="btn-refresh" (click)="carregarRamais()" [disabled]="loading()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="23 4 23 10 17 10"></polyline>
+          <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+        </svg>
+        Atualizar
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  @if (loading()) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Carregando ramais...</p>
+    </div>
+  }
+
+  <!-- Error -->
+  @if (error() && !loading()) {
+    <div class="error-container">
+      <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="12" y1="8" x2="12" y2="12"></line>
+        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+      </svg>
+      <h3>{{ error() }}</h3>
+      <button class="btn-retry" (click)="carregarRamais()">Tentar Novamente</button>
+    </div>
+  }
+
+  <!-- Content -->
+  @if (!loading() && !error()) {
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon total">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Total de Ramais</span>
+          <span class="stat-value">{{ totalRamais() }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon online">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Disponíveis</span>
+          <span class="stat-value">{{ ramaisOnline() }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon offline">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Offline</span>
+          <span class="stat-value">{{ ramaisOffline() }}</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon busy">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="15" y1="9" x2="9" y2="15"></line>
+          </svg>
+        </div>
+        <div class="stat-content">
+          <span class="stat-label">Ocupados</span>
+          <span class="stat-value">{{ ramaisBusy() }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-section">
+      <div class="filter-buttons">
+        <button
+          class="filter-btn"
+          [class.active]="filtroStatus() === 'todos'"
+          (click)="filtrarPorStatus('todos')">
+          Todos
+          <span class="badge-count">{{ totalRamais() }}</span>
+        </button>
+        <button
+          class="filter-btn"
+          [class.active]="filtroStatus() === 'online'"
+          (click)="filtrarPorStatus('online')">
+          <span class="status-dot online"></span>
+          Disponíveis
+          <span class="badge-count">{{ ramaisOnline() }}</span>
+        </button>
+        <button
+          class="filter-btn"
+          [class.active]="filtroStatus() === 'offline'"
+          (click)="filtrarPorStatus('offline')">
+          <span class="status-dot offline"></span>
+          Offline
+          <span class="badge-count">{{ ramaisOffline() }}</span>
+        </button>
+        <button
+          class="filter-btn"
+          [class.active]="filtroStatus() === 'busy'"
+          (click)="filtrarPorStatus('busy')">
+          <span class="status-dot busy"></span>
+          Ocupados
+          <span class="badge-count">{{ ramaisBusy() }}</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="ramais-grid">
+      @for (ramal of ramaisFiltrados(); track ramal.ramal) {
+        <div class="ramal-card" [ngClass]="getStatusClass(ramal.status)">
+          <div class="card-header">
+            <div class="ramal-avatar">
+              <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+              </svg>
+            </div>
+            <div class="status-indicator" [ngClass]="getStatusClass(ramal.status)">
+              {{ getStatusIcon(ramal.status) }}
+            </div>
+          </div>
+
+          <div class="card-body">
+            <h3 class="ramal-nome">{{ ramal.ramal }}</h3>
+            <span class="ramal-numero">Ramal {{ ramal.ramal }}</span>
+
+            <div class="ramal-info">
+              @if (ramal.ip) {
+                <div class="info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="2" y1="12" x2="22" y2="12"></line>
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                  </svg>
+                  <span>{{ ramal.ip }}</span>
+                </div>
+              } @else {
+                <div class="info-item muted">
+                  <span>IP não disponível</span>
+                </div>
+              }
+
+              @if (ramal.porta) {
+                <div class="info-item">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                  </svg>
+                  <span>Porta: {{ ramal.porta }}</span>
+                </div>
+              }
+            </div>
+
+            <div class="status-badge" [ngClass]="getStatusClass(ramal.status)">
+              <span class="status-dot"></span>
+              {{ getStatusText(ramal.status) }}
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <div class="empty-state">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          <h4>Nenhum ramal encontrado</h4>
+          <p>Não há ramais com este filtro.</p>
+        </div>
+      }
+    </div>
+  }
+</div>
