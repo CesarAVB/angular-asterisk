@@ -21,8 +21,7 @@ Monitoramento de Ramais:
 
 Este painel exibe o status em tempo real dos ramais configurados no Asterisk, categorizando-os como disponíveis, offline ou ocupados. Permite uma visão rápida da saúde da sua infraestrutura de telefonia.
 
-Screenshot do painel de consulta de ramais
-public/ramais.png
+![Screenshot do painel de consulta de ramais](public/ramais.png)
 
 Consulta e Gerenciamento de Protocolos:
 
