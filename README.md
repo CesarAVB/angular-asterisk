@@ -503,7 +503,7 @@ Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes
 
 **César Augusto**
 - Email: cesar.augusto.rj1@gmail.com
-- Portfolio: https://quemsoueu-six.vercel.app/
+- Portfolio: https://portfolio.cesaravb.com.br/
 
 ## 🔗 URLs do Projeto
 
@@ -513,17 +513,3 @@ Este projeto está sob a licença MIT. Veja o arquivo LICENSE para mais detalhes
 - **Dashboard**: http://localhost:4200/pages/dashboard
 - **Consultar Ramais**: http://localhost:4200/pages/consultar-ramais
 - **Consultar Protocolos**: http://localhost:4200/pages/consultar-protocolos
-
-## 🙏 Agradecimentos
-
-Este projeto foi desenvolvido como uma ferramenta de estudo e demonstração para integração de tecnologias web modernas com sistemas de telefonia. Agradecemos à comunidade open-source do Asterisk, Spring Boot e Angular por fornecerem ferramentas robustas que tornam possível este tipo de integração.
-
----
-
-⭐ Se este projeto te ajudou, não esqueça de dar uma estrela!
-
-📚 **Para mais informações sobre as tecnologias utilizadas:**
-- [Angular Documentation](https://angular.dev/)
-- [Spring Boot Documentation](https://spring.io/projects/spring-boot)
-- [Asterisk Documentation](https://www.asterisk.org/)
-- [Asterisk-Java Library](https://github.com/asterisk-java/asterisk-java)
